@@ -3,6 +3,7 @@
   console.log('app.js is running!');
  
 
+  var AudioContext = window.AudioContext;
 
 
   var sounds = [
@@ -14,9 +15,57 @@
     'snare-block.wav'
   ];
   var soundsUrl = '/sounds/';
+  //var soundPath = soundsUrl + sounds[i]
 
-  var BPM = 120;
+  var BPM = 90;
   var STEPS = 8;
+
+
+  ///////////////////  AUDIOCONTEXT API  /////////////////////////////
+  var buffers = {};
+  
+  if (AudioContext){
+  var context =  new AudioContext(); // if we can use AudioContext 
+  }
+
+  var playSound = function (index) {
+    var soundPath = soundsUrl + sounds[index];
+
+    if (!AudioContext){
+      new Audio(soundPath).play();
+      return;
+    }
+
+    if (typeof(buffers[soundPath]) == 'undefined'){
+      buffers[soundPath] = null;
+      var req = new XMLHttpRequest(); //generate a request to load sounds.
+      req.open('GET', soundPath, true); //initializes the request
+      req.responseType='arrayBuffer'; //make response an 'arrayBuffer'. This is returned as binary, so its more compact, faster to load.
+
+      //decodes asynchronously
+      req.onload = function(){    //when page loads, use AudioContext to decode the binary audio data
+        context.decodeAudioData(req.response, function(buffer){  //call back that provides decoded audio
+         buffers[soundPath] = buffer; 
+         playBuffer(buffer);
+       },
+       function(err){
+        console.log(err);
+       });
+       };
+    req.send();
+  }
+
+  function playBuffer(buffer){
+    var source = context.createBufferSource();  //create source for AudioContext. Needed for playback source
+    source.buffer = buffer;   //sets source and buffer
+    source.connect = (context.destination);  //connects the source to the AudioContext destination (where the audio plays(computer speakers!))
+    source.start(); //play this source now!
+  };
+    if(buffers[soundPath]){
+      playBuffer(buffers[soundPath]);
+    }
+  
+    console.log(buffers)
 
 
 
@@ -58,7 +107,6 @@
           cell.classList.remove('on');
         }
       }
-
     }
   };
   document.querySelector("#clear").addEventListener('click', clearBeat);
@@ -77,22 +125,41 @@
   var lastStep = STEPS - 1;
   var stepTime = 1/(4*BPM/(60*1000))  //60*1000 (since we need mili-sec), 4*BPM (since we have 4 beats per measure), 4*BPM/(60*1000) (length of time allowed per-measure), 1/ (length of time per each beat)
 
-  //sets start time on animation to now. 
+  //sets start time on animation to current time of day. Uses time of day (not timers run by the CPU) to keep sync. 
   function requestInterval(fn, delay){ //requestInterval replaces 'setInterval'. Works with requestAnimationFrame
     var start = new Date().getTime(); // TRY *refactor* change to +new Date. Updated syntax. Changes date/time to integer.
     var handle ={};
 
+    //this handles the loop timing/sync. and makes loop run ∞ 
     function loop(){
       var current = new Date().getTime(); //time at animation complete.
       var delta = current - start; //calculates time passed since last animation frame (delta).
-      if(delta>=delay){ //if the time between animations is >= the delay time, run loop(), set 'start', so 'delta' still works. Keeps time correctly.
+      if(delta>=delay){ //if the time between animations (delta) >= delay time, re-run loop(), re-set 'start' so 'delta' still works. Keeps time correctly.
         fn.call();
         start = new Date().getTime(); // TRY *refactor* change to +new Date. Updated syntax. Changes date/time to integer.
+      }
+      handle.value = requestAnimationFrame(loop) //when screen is ready, run loop().
+    }
+      handle.value = requestAnimationFrame(loop)
+     
+      return handle;
+  }
 
+
+    //adds and removes classes to $beats currently being played (simulate moving playhead). 
+    requestInterval(function() {    //iterate through sounds array (all sounds in machineGrid)
+      for (var i = 0; i < soundsLength; i++) {  
+        var lastBeat = $beats[i * STEPS + lastStep];  //identify $beats playHead just passed
+        var currentBeat = $beats[i * STEPS + currentStep];  //identify $beats at playhead
+        lastBeat.classList.remove('playHead');  //remove the 'playHead' class from $beat
+        currentBeat.classList.add('playHead');  //add class 'playHead' to $beat
+        if (currentBeat.classList.contains('on')) { 
+          playSound(i); //plays sound if $beat has class 'on'
       }
     }
-
-  }
+    lastStep = currentStep;
+    currentStep = (currentStep + 1) % STEPS;
+  }, stepTime); //uses stepTime from above to stay sync'd to sound and visuals
 
 
 
