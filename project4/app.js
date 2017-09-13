@@ -35,7 +35,7 @@
         $newButton.classList.add('first') //adds 'first' class to all buttons in first column
       }
       var soundName = sounds[i].split('.')[0]; //takes the file name of each sound file, splits at the '.' then assigns the first part of the split (cuts off the '.wav')
-      $newButton.classList.add('soundName');  //adds class name relating to instrument 
+      $newButton.classList.add(soundName);  //adds class name relating to instrument 
       $newButton.dataset.instrument = soundName; //generates data field 'instrument' that equals the soundName
 
       $newButton.addEventListener('click', function(){  //adds event listener to all n$ewButtons
@@ -48,20 +48,55 @@
   
   var clearBeat = function(){
     $playBeats = document.querySelectorAll('.beat.on'); // $playBeats are all engaged 'beat'
+    console.log($playBeats) //logs objects for each .on button.
     if(!$playBeats.length)  //if there are no $playBeats (NO beats are engaged), do nothing.
       return;
-    for(var i = 0; i<sounds.length; i++){  //ELSE, iterate over rows and over all columns
+    for(var i = 0; i<sounds.length; i++){  //ELSE, iterate over all rows and all columns
       for(var j = 0; j<STEPS; j++){
-        var cell = $playBeats[j + (i * STEPS)];  //
+        var cell = $playBeats[j + (i * STEPS)];  // TRY *refactor* if(playBeats) remove on. **************
         if (cell) {
           cell.classList.remove('on');
         }
       }
+
     }
   };
   document.querySelector("#clear").addEventListener('click', clearBeat);
-})()//this runs the function!
 
+
+////////////////////////////////////
+////////////////////////////////////
+/////    LOOP THROUGH MACHINE  /////
+////////////////////////////////////
+////////////////////////////////////
+
+
+  // This animation/loop is based on time, NOT per frame refresh. That is why we use the 'new Date().getTime()' to measure time between animations.
+  //sets all variables on page load
+  var currentStep = 0;
+  var lastStep = STEPS - 1;
+  var stepTime = 1/(4*BPM/(60*1000))  //60*1000 (since we need mili-sec), 4*BPM (since we have 4 beats per measure), 4*BPM/(60*1000) (length of time allowed per-measure), 1/ (length of time per each beat)
+
+  //sets start time on animation to now. 
+  function requestInterval(fn, delay){ //requestInterval replaces 'setInterval'. Works with requestAnimationFrame
+    var start = new Date().getTime(); // TRY *refactor* change to +new Date. Updated syntax. Changes date/time to integer.
+    var handle ={};
+
+    function loop(){
+      var current = new Date().getTime(); //time at animation complete.
+      var delta = current - start; //calculates time passed since last animation frame (delta).
+      if(delta>=delay){ //if the time between animations is >= the delay time, run loop(), set 'start', so 'delta' still works. Keeps time correctly.
+        fn.call();
+        start = new Date().getTime(); // TRY *refactor* change to +new Date. Updated syntax. Changes date/time to integer.
+
+      }
+    }
+
+  }
+
+
+
+})()//this runs the function!
 
 
 

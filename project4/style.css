@@ -1,8 +1,53 @@
 
 body {
-  background: #222;
-  display: flex;
-  justify-content: center;
-  align-content: center; 
+	background: #2C3E50;  
+    background: -webkit-linear-gradient(left, #4CA1AF, #2C3E50);
+    background: -o-linear-gradient(left, #4CA1AF, #2C3E50);
+    background: linear-gradient(to right, #4CA1AF, #2C3E50);   
+    display: flex;
+    justify-content: center;
+    align-content: center; 
 }
+
+/*_________________machineGrid style______________*/
+.machineGrid {
+	display:flex;
+	/*flex-wrap: wrap;   NEEDED????   */ 
+	flex-flow: row wrap; /*keeps all rows inside of machineGrid div*/
+	padding:15px;
+	width : 80%;
+	height:75%;
+	background-color: rgba(84, 255, 195, 0.2);
+}
+
+.machineGrid button {
+	background: #962f22; 
+    background: -webkit-linear-gradient(to right, #db6c5e, #962f22); 
+    background: linear-gradient(to right, #db6c5e, #962f22); 
+
+	border: 2px solid black;
+	padding:2px;
+	height: 3em;
+	
+	flex: 1 1 5%;  /*button width*/
+	margin: 2% 3.5%;
+}
+
+.machineGrid button:hover {
+    background: #fc4f3c; 
+    background: -webkit-linear-gradient(to right, #fc4f3c, #bf3a2b); 
+    background: linear-gradient(to right, #fc4f3c, #bf3a2b); 
+}
+
+.machineGrid button.on {
+	background: #48ea8e; 
+    background: -webkit-linear-gradient(to right, #48ea8e, #21af5f); 
+    background: linear-gradient(to right, #48ea8e, #21af5f); 
+
+}
+
+
+
+
+
 
