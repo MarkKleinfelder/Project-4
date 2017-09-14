@@ -17,7 +17,7 @@
   var soundsUrl = '/sounds/';
   //var soundPath = soundsUrl + sounds[i]
 
-  var BPM = 90;
+  var BPM = 120;
   var STEPS = 8;
 
 
@@ -31,41 +31,46 @@
   var playSound = function (index) {
     var soundPath = soundsUrl + sounds[index];
 
-    if (!AudioContext){
-      new Audio(soundPath).play();
-      return;
-    }
+    // if (!AudioContext){
+    //   new Audio(soundPath).play();
+    //   return;
+    // }
 
     if (typeof(buffers[soundPath]) == 'undefined'){
       buffers[soundPath] = null;
       var req = new XMLHttpRequest(); //generate a request to load sounds.
       req.open('GET', soundPath, true); //initializes the request
-      req.responseType='arrayBuffer'; //make response an 'arrayBuffer'. This is returned as binary, so its more compact, faster to load.
+      req.responseType='arraybuffer'; //make response an 'arrayBuffer'. This is returned as binary, so its more compact, faster to load.
 
       //decodes asynchronously
       req.onload = function(){    //when page loads, use AudioContext to decode the binary audio data
         context.decodeAudioData(req.response, function(buffer){  //call back that provides decoded audio
-         buffers[soundPath] = buffer; 
-         playBuffer(buffer);
-       },
-       function(err){
-        console.log(err);
-       });
-       };
-    req.send();
-  }
-
-  function playBuffer(buffer){
-    var source = context.createBufferSource();  //create source for AudioContext. Needed for playback source
-    source.buffer = buffer;   //sets source and buffer
-    source.connect = (context.destination);  //connects the source to the AudioContext destination (where the audio plays(computer speakers!))
-    source.start(); //play this source now!
-  };
-    if(buffers[soundPath]){
-      playBuffer(buffers[soundPath]);
+          buffers[soundPath] = buffer; 
+          playBuffer(buffer);
+          //console.log(buffer)
+        },
+        function(err){
+          console.log(err);
+        });
+      };
+      req.send();
     }
+
+    function playBuffer(buffer){
+      var source = context.createBufferSource();  //create source for AudioContext. Needed for playback source
+      source.buffer = buffer;   //sets source and buffer
+      //console.log (buffer)
+      source.connect(context.destination);  //connects the source to the AudioContext destination (where the audio plays(computer speakers!))
+      //console.log(source.connect)
+      //console.log(buffers)
+      source.start(); //play this source now!
+    };
+      if(buffers[soundPath]){
+        playBuffer(buffers[soundPath]);
+      }
+  };
   
-    console.log(buffers)
+ 
 
 
 
@@ -142,7 +147,7 @@
     }
       handle.value = requestAnimationFrame(loop)
      
-      return handle;
+      //return handle;
   }
 
 
