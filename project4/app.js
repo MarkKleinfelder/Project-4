@@ -3,7 +3,7 @@
   console.log('app.js is running!');
  
 
-  var AudioContext = window.AudioContext;
+  var AudioContext = window.AudioContext; //AudioApi
 
 
   var sounds = [
@@ -21,7 +21,11 @@
   var STEPS = 8;
 
 
-  ///////////////////  AUDIOCONTEXT API  /////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////                   /////////////////
+  ////////////////////  AUDIOCONTEXT API /////////////////
+  ////////////////////                   /////////////////
+  ////////////////////////////////////////////////////////
   var buffers = {};
   
   if (AudioContext){
@@ -70,12 +74,12 @@
       }
   };
   
- 
+/////////////////////////////////////
+///////                 /////////////
+///////  CREATING GRID  /////////////
+///////                 /////////////
+/////////////////////////////////////
 
-
-
-
-//creating grid
   var soundsLength = sounds.length;
 
   var $machineGrid = document.querySelectorAll('.machineGrid')[0]; //define $maachineGrid - visual grid for DM
@@ -115,6 +119,45 @@
     }
   };
   document.querySelector("#clear").addEventListener('click', clearBeat);
+
+///////////////////////////////////
+///////////////////////////////////
+///////  SAVE PROGRAM       ///////
+///////////////////////////////////
+///////////////////////////////////
+
+var saveProgram = function(){
+  console.log('saveProgram button press')
+  
+  var programData={}; //this holds all the data in an object to be saved to the DB 
+                      // soundName is the key, the array is the value.
+
+  sounds.forEach(function (sound){
+    var soundName = sound.split('.')[0];  //grabs sound name for later use in object as key.
+
+    var hitsArr = (new Array(STEPS)).fill(0);  //creates array, defaults values per number of STEPS to 0 (off)
+
+    var hits = document.querySelectorAll(`.beat.${soundName}`)
+    
+    for(var i=0; i<hits.length; i++){
+      if (hits[i].classList.contains('on')){
+        
+        hitsArr[i] = 1;
+      }   
+    }
+    programData[soundName]=hitsArr; 
+  });
+  console.log('programData ' + JSON.stringify(programData)) //MAKE AJAX CALL HERE!!!!
+};
+document.querySelector('#save').addEventListener('click', saveProgram);
+
+
+
+
+
+
+
+
 
 
 ////////////////////////////////////
@@ -176,59 +219,4 @@
 
 
 
-
-// var tick = new Audio('/sounds/hihat-analog.wav');
-
-
-
-
-// $().button('toggle')
-
-
-
-
-// $( "#tick" ).mousedown(function boom(){
-//   var counter = 0;
-//   var i = setInterval(function(){
-//     tick.play()
-//     console.log('sounds!');
-//     counter++;
-//     if(counter === 10) {
-//         clearInterval(i);
-//     }
-// }, 500);
-// })
-
-
-
-// $( "#boom" ).mousedown(function boom(){
-//   var boom = new Audio('/sounds/kick-floppy.wav');
-//   var counter = 0;
-//   var i = setInterval(function(){
-//     boom.play()
-    
-//     console.log('sounds!');
-//     counter++;
-//     if(counter === 10) {
-//         clearInterval(i);
-//     }
-// }, 500);
-
-//   })
-
-
-// $( "#booms" ).click(function boom(){
-
-//   var boom = new Audio('/sounds/snare-analog.wav');
-//   var counter = 0;
-//   var i = setInterval(function(){
-//     boom.play()
-//     console.log('sounds!');
-//     counter++;
-//     if(counter === 10) {
-//         clearInterval(i);
-//     }
-// }, 500);
-
-//   })
 
