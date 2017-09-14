@@ -1,4 +1,4 @@
-var request      = require('request');
+// var request      = require('request');
 var express      = require('express');
 var app          = express();
 var mongoose     = require('mongoose');
@@ -14,7 +14,7 @@ var db = require('./models');
 
 app.get('/api', function api_index (req, res){
   res.json({
-    message: "Welcome to Mark Kleinfelder's Project 2",
+    message: "Welcome to Mark Kleinfelder's Project 4",
     documentation_url: "",
     base_url: "",
     endpoints: [
@@ -25,21 +25,21 @@ app.get('/api', function api_index (req, res){
 
 
 //____________get all users___________//
-app.get('/api/users', function user_index(req, res){
-  	db.User.find({},function(error, users){
-    console.log(users);
-    res.json(users);
- });
-});
+// app.get('/api/users', function user_index(req, res){
+//   	db.User.find({},function(error, users){
+//     console.log(users);
+//     res.json(users);
+//  });
+// });
 
 
-//______________GET results from API_________//
+//______________GET programs from API_________//
 
 
 
 
-//______________INDEX all results____________//
-app.get('/api/programs', function results_index(req, res){
+//______________INDEX all programs____________//
+app.get('/api/programs', function programs_index(req, res){
   db.Program.find({},function(error, programs){
     console.log(programs);
     res.json(programs);
@@ -83,7 +83,7 @@ app.put('/api/programs/:id', function(req,res){
 app.delete('/api/programs/:id', function(req,res){
 	console.log("DELETE hit");
 	console.log(req.params.id);
-	db.Result.findOneAndRemove({_id: req.params.id}, function(err,deleted){
+	db.Program.findOneAndRemove({_id: req.params.id}, function(err,deleted){
 		if(err){
 			console.log(err);
 		}else{
