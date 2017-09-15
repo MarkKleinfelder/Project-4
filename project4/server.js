@@ -1,9 +1,20 @@
 // var request      = require('request');
 var express      = require('express');
+var session      = require('express-session');
 var app          = express();
 var mongoose     = require('mongoose');
+var bodyParser   = require('body-parser');
+var routes       = require('./config/routes');
 
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.set('views', './views');
+app.engine('ejs', require('ejs').renderFile);
+app.set('view engine', 'ejs');
+app.use(express.static(__dirname + '/public'));
+
+
+app.use(routes);
 
 /***********DATABASE*************/
 var db = require('./models');
@@ -33,7 +44,7 @@ app.get('/api', function api_index (req, res){
 // });
 
 
-//______________GET programs from API_________//
+//______________GET home page (index.html)_________//
 
 
 
@@ -56,7 +67,8 @@ app.get('/api/programs/:id', function(req,res){
 
 //____________CREATE program object____//
 app.post('/api/programs', function(req,res){
-    console.log('hit protrams');
+    console.log('hit programs');
+    console.log(req.body)
 	db.Program.create(req.body, function(error, program){
 		console.log(program);
 		res.json(program);

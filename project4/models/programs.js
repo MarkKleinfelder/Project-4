@@ -3,15 +3,15 @@ var Schema = mongoose.Schema;
 
 
 var ProgramSchema = new Schema({
-		title: String,
-		comment: String,
-		timeStamp: String,
-	    inst1: [Number],
-	    inst2: [Number],
-	    inst3: [Number],
- 	    inst4: [Number],
-        inst5: [Number],
-        inst6: [Number]   
+	    inst1: String,
+	    inst2: String,
+	    inst3: String,
+ 	    inst4: String,
+        inst5: String,
+        inst6: String,
+        title: {type: String, default: "THIS IS DEFAULT"},
+		timeStamp: [String],
+		comment: String 
     })
 
 module.exports = mongoose.model('Program', ProgramSchema)

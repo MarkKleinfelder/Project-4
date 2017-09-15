@@ -14,11 +14,13 @@
     'snareAnalog.wav',
     'snareBlock.wav'
   ];
-  var soundsUrl = '/sounds/';
+  var soundsUrl = './sounds/';
   //var soundPath = soundsUrl + sounds[i]
 
   var BPM = 120;
   var STEPS = 8;
+
+
 
 
   ////////////////////////////////////////////////////////
@@ -26,6 +28,7 @@
   ////////////////////  AUDIOCONTEXT API /////////////////
   ////////////////////                   /////////////////
   ////////////////////////////////////////////////////////
+
   var buffers = {};
   
   if (AudioContext){
@@ -74,6 +77,8 @@
       }
   };
   
+  
+
 /////////////////////////////////////
 ///////                 /////////////
 ///////  CREATING GRID  /////////////
@@ -120,6 +125,9 @@
   };
   document.querySelector("#clear").addEventListener('click', clearBeat);
 
+
+
+
 ///////////////////////////////////
 ///////////////////////////////////
 ///////  SAVE PROGRAM       ///////
@@ -147,35 +155,79 @@ var saveProgram = function(){
     programData[soundName]=hitsArr; 
   });
   var instJson = JSON.stringify(programData); //stringify the programData,
-  var instObj = JSON.parse(instJson);  //then parse the JSON so it can be saved to db
-  console.log(instObj)
-
+  console.log(programData)
+  // console.log(instJson)
+  // var instObj = JSON.parse(instJson);  //then parse the JSON so it can be saved to db
+  // console.log(instObj)
+  
 
 ////////////////////////////////////
 /////   SAVE TO DATABASE       /////
 ////////////////////////////////////
-  var hiHat1 = instObj.hihatAnalog;
-  var hiHat2 = instObj.openHatTight;
-  var kick1 = instObj.kickFloppy;
-  var kick2 = instObj.kickHeavy;
-  var snare1 = instObj.snareAnalog;
-  var snare2 = instObj.snareBlock;
-  var timeStamp = new Date().toLocaleString().split(', ');
-
-
-
-
-
-
-
+  var hiHat1 = Object.values(programData.hihatAnalog); //these pull the data (pattern) out of each instrument
+  var hiHat2 = Object.values(programData.openhatTight);
+  var kick1 = Object.values(programData.kickFloppy);
+  var kick2 = Object.values(programData.kickHeavy);
+  var snare1 = Object.values(programData.snareAnalog);
+  var snare2 = Object.values(programData.snareBlock);
+  var timeStamp = new Date().toLocaleString().split(', '); 
+  var programsUrl = "/api/programs"
+  
+  console.log("hihat obj val " + hiHat1)
+  console.log(timeStamp)
+  
+  $.ajax({
+    method: "POST",
+    url: programsUrl,
+    data: {
+      inst1: hiHat1,
+      inst2: hiHat2,
+      inst3: kick1,
+      inst4: kick2,
+      inst5: snare1,
+      inst6: snare2,
+      title: "It's a beat",
+      timeStamp: new Date().toLocaleString().split(', ') 
+    },
+    success: function(){
+      console.log('ajax POST success')
+    }
+  })
 };
 document.querySelector('#save').addEventListener('click', saveProgram);
 
 
 
 
+////////////////////////////////////
+////////////////////////////////////
+/////    Get List of BEATZ     /////
+////////////////////////////////////
+////////////////////////////////////
 
+var getUrl= "/api/programs";
 
+function seeBeatz(data){
+  $.ajax({
+    method: "GET",
+    url: getUrl,
+    data: {
+      inst1: hiHat1,
+      inst2: hiHat2,
+      inst3: kick1,
+      inst4: kick2,
+      inst5: snare1,
+      inst6: snare2,
+      title: "It's a beat",
+      timeStamp: new Date().toLocaleString().split(', ') 
+    },
+    success: function(){
+      console.log('GET ' + data.title)
+    }
+  })
+}
+
+document.querySelector('#seeBeatz').addEventListener('click', seeBeatz);
 
 
 
@@ -230,12 +282,7 @@ document.querySelector('#save').addEventListener('click', saveProgram);
   }, stepTime); //uses stepTime from above to stay sync'd to sound and visuals
 
 
-
 })()//this runs the function!
-
-
-
-
 
 
 

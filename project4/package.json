@@ -10,8 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.1",
     "ejs": "^2.5.7",
     "express": "^4.15.4",
+    "express-router": "0.0.1",
+    "express-session": "^1.15.5",
     "jquery": "^3.2.1",
     "mongodb": "^2.2.31",
     "mongoose": "^4.11.11"
