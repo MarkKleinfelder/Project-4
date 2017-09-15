@@ -8,9 +8,9 @@
 
   var sounds = [
     'hihatAnalog.wav',
+    'openhatTight.wav',
     'kickFloppy.wav',
     'kickHeavy.wav',
-    'openhatTight.wav',
     'snareAnalog.wav',
     'snareBlock.wav'
   ];
@@ -148,14 +148,23 @@ var saveProgram = function(){
   });
   var instJson = JSON.stringify(programData); //stringify the programData,
   var instObj = JSON.parse(instJson);  //then parse the JSON so it can be saved to db
-  console.log(instObj) //MAKE AJAX CALL HERE!!!!
+  console.log(instObj)
 
 
-////////////////////////////////////
 ////////////////////////////////////
 /////   SAVE TO DATABASE       /////
 ////////////////////////////////////
-////////////////////////////////////
+  var hiHat1 = instObj.hihatAnalog;
+  var hiHat2 = instObj.openHatTight;
+  var kick1 = instObj.kickFloppy;
+  var kick2 = instObj.kickHeavy;
+  var snare1 = instObj.snareAnalog;
+  var snare2 = instObj.snareBlock;
+  var timeStamp = new Date().toLocaleString().split(', ');
+
+
+
+
 
 
 
