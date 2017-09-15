@@ -7,12 +7,12 @@
 
 
   var sounds = [
-    'hihat-analog.wav',
-    'kick-floppy.wav',
-    'kick-heavy.wav',
-    'openhat-tight.wav',
-    'snare-analog.wav',
-    'snare-block.wav'
+    'hihatAnalog.wav',
+    'kickFloppy.wav',
+    'kickHeavy.wav',
+    'openhatTight.wav',
+    'snareAnalog.wav',
+    'snareBlock.wav'
   ];
   var soundsUrl = '/sounds/';
   //var soundPath = soundsUrl + sounds[i]
@@ -137,17 +137,28 @@ var saveProgram = function(){
 
     var hitsArr = (new Array(STEPS)).fill(0);  //creates array, defaults values per number of STEPS to 0 (off)
 
-    var hits = document.querySelectorAll(`.beat.${soundName}`)
-    
-    for(var i=0; i<hits.length; i++){
-      if (hits[i].classList.contains('on')){
-        
-        hitsArr[i] = 1;
+    var hits = document.querySelectorAll(`.beat.${soundName}`)//uses template literal to grab each 'beat' that has a unique 'soundName'. 
+
+    for(var i=0; i<hits.length; i++){ 
+      if (hits[i].classList.contains('on')){ //if button has class 'on'
+        hitsArr[i] = 1; //push '1' to hitsArr corresponding [i]
       }   
     }
     programData[soundName]=hitsArr; 
   });
-  console.log('programData ' + JSON.stringify(programData)) //MAKE AJAX CALL HERE!!!!
+  var instJson = JSON.stringify(programData); //stringify the programData,
+  var instObj = JSON.parse(instJson);  //then parse the JSON so it can be saved to db
+  console.log(instObj) //MAKE AJAX CALL HERE!!!!
+
+
+////////////////////////////////////
+////////////////////////////////////
+/////   SAVE TO DATABASE       /////
+////////////////////////////////////
+////////////////////////////////////
+
+
+
 };
 document.querySelector('#save').addEventListener('click', saveProgram);
 

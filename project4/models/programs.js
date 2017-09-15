@@ -10,7 +10,7 @@ var ProgramSchema = new Schema({
 	    inst3: [Number],
  	    inst4: [Number],
         inst5: [Number],
-        inst6: [String]
+        inst6: [Number]
         
     })
 
