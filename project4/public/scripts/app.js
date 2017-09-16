@@ -208,23 +208,11 @@ document.querySelector('#save').addEventListener('click', saveProgram);
 var getUrl= "/api/programs";
 
 function seeBeatz(data){
-  $.ajax({
-    method: "GET",
-    url: getUrl,
-    data: {
-      inst1: hiHat1,
-      inst2: hiHat2,
-      inst3: kick1,
-      inst4: kick2,
-      inst5: snare1,
-      inst6: snare2,
-      title: "It's a beat",
-      timeStamp: new Date().toLocaleString().split(', ') 
-    },
-    success: function(){
-      console.log('GET ' + data.title)
-    }
-  })
+  $.get("/api/programs")
+    .done(function (data){
+      let allBeatz= data;
+      console.log(allBeatz)
+    })
 }
 
 document.querySelector('#seeBeatz').addEventListener('click', seeBeatz);
