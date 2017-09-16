@@ -306,6 +306,7 @@ $("#titleModal").on('click', '#saveTitle', function(event){
 ////////////////////////////////////
 
 $("#allBeatzList").on('click', '#reLoadButton', function(){
+  
   var beatzId = $(this).parents('.oneBeatz').data('beatz-id')
   $.get("/api/programs/"+ beatzId + "")
     .done(function(data){
@@ -345,25 +346,16 @@ $("#allBeatzList").on('click', '#reLoadButton', function(){
       for(i=0; i<str6.length; i++){
         arr6.push(parseInt(str6[i]));
       }
-     
-    sounds.forEach(function (sound){
-    var soundName = sound.split('.')[0];  //grabs sound name for later use in object as key.
-
-    //var hitsArr = (new Array(STEPS)).fill(0);  //creates array, defaults values per number of STEPS to 0 (off)
-
-    var hits = document.querySelectorAll(`.beat.${soundName}`)//uses template literal to grab each 'beat' that has a unique 'soundName'. 
     
-    var allbeats = document.querySelectorAll('.beat')
-    var thisBeat = hits;
-    console.log('thisbeat ' + thisBeat)
-    for(var i=0; i<arr1.length; i++){ 
-      console.log(hits[i])
-        
-    }
-
-  });
-
-    })
+      var hihatAnalog= document.querySelectorAll('.hihatAnalog')
+      console.log(hihatAnalog)
+      for(var i=0; i<arr1.length;i++){
+        if(arr1[i]=1){
+          hihatAnalog[i].className += ' on';
+        }
+      }
+})
+   
 })
 
 
