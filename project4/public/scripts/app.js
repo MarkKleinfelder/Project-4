@@ -153,6 +153,7 @@ var saveProgram = function(){
       }   
     }
     programData[soundName]=hitsArr; 
+    
   });
   //var instJson = JSON.stringify(programData); //stringify the programData,
   console.log(programData)
@@ -308,50 +309,60 @@ $("#allBeatzList").on('click', '#reLoadButton', function(){
   var beatzId = $(this).parents('.oneBeatz').data('beatz-id')
   $.get("/api/programs/"+ beatzId + "")
     .done(function(data){
+      
       str1 = data.inst1.split(',');    // converts all pattern STRINGS to pattern ARRAYs
       arr1=[];
       for(i=0; i<str1.length; i++){
-        arr1.push(parseInt([i]));
+        arr1.push(parseInt(str1[i]));
       }
-        
+        console.log('arr1 ' +arr1)
       str2 = data.inst2.split(',');
       arr2=[];
       for(i=0; i<str2.length; i++){
-        arr2.push(parseInt([i]));
+        arr2.push(parseInt(str2[i]));
       }
         
       str3 = data.inst3.split(',');
       arr3=[];
       for(i=0; i<str3.length; i++){
-        arr3.push(parseInt([i]));
+        arr3.push(parseInt(str3[i]));
       }
         
       str4 = data.inst4.split(',');
       arr4=[];
       for(i=0; i<str4.length; i++){
-        arr4.push(parseInt([i]));
+        arr4.push(parseInt(str4[i]));
       }
         
       str5 = data.inst5.split(',');
       arr5=[];
       for(i=0; i<str5.length; i++){
-        arr5.push(parseInt([i]));
+        arr5.push(parseInt(str5[i]));
       }
         
       str6 = data.inst6.split(',');
       arr6=[];
       for(i=0; i<str6.length; i++){
-        arr6.push(parseInt([i]));
+        arr6.push(parseInt(str6[i]));
       }
+     
+    sounds.forEach(function (sound){
+    var soundName = sound.split('.')[0];  //grabs sound name for later use in object as key.
 
+    //var hitsArr = (new Array(STEPS)).fill(0);  //creates array, defaults values per number of STEPS to 0 (off)
 
+    var hits = document.querySelectorAll(`.beat.${soundName}`)//uses template literal to grab each 'beat' that has a unique 'soundName'. 
+    
+    var allbeats = document.querySelectorAll('.beat')
+    var thisBeat = hits;
+    console.log('thisbeat ' + thisBeat)
+    for(var i=0; i<arr1.length; i++){ 
+      console.log(hits[i])
+        
+    }
 
+  });
 
-
-
-
-      console.log(arr1)
-      console.log(arr1Go)
     })
 })
 
