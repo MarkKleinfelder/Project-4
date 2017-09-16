@@ -277,7 +277,6 @@ $("#allBeatzList").on('click', '#titleButton', function(event){
     $.get("/api/programs/"+beatzId+"")
       .done(function(data){
         console.log(data.title);
-        console.log(data)
         $("#beatzTitle").val(data.title)
       })
 })
@@ -309,11 +308,51 @@ $("#allBeatzList").on('click', '#reLoadButton', function(){
   var beatzId = $(this).parents('.oneBeatz').data('beatz-id')
   $.get("/api/programs/"+ beatzId + "")
     .done(function(data){
+      str1 = data.inst1.split(',');    // converts all pattern STRINGS to pattern ARRAYs
+      arr1=[];
+      for(i=0; i<str1.length; i++){
+        arr1.push(parseInt([i]));
+      }
+        
+      str2 = data.inst2.split(',');
+      arr2=[];
+      for(i=0; i<str2.length; i++){
+        arr2.push(parseInt([i]));
+      }
+        
+      str3 = data.inst3.split(',');
+      arr3=[];
+      for(i=0; i<str3.length; i++){
+        arr3.push(parseInt([i]));
+      }
+        
+      str4 = data.inst4.split(',');
+      arr4=[];
+      for(i=0; i<str4.length; i++){
+        arr4.push(parseInt([i]));
+      }
+        
+      str5 = data.inst5.split(',');
+      arr5=[];
+      for(i=0; i<str5.length; i++){
+        arr5.push(parseInt([i]));
+      }
+        
+      str6 = data.inst6.split(',');
+      arr6=[];
+      for(i=0; i<str6.length; i++){
+        arr6.push(parseInt([i]));
+      }
 
+
+
+
+
+
+
+      console.log(arr1)
+      console.log(arr1Go)
     })
-
-
-  })
 })
 
 
