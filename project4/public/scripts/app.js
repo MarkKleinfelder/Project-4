@@ -206,12 +206,34 @@ document.querySelector('#save').addEventListener('click', saveProgram);
 ////////////////////////////////////
 
 var getUrl= "/api/programs";
+var allBeatz;
 
 function seeBeatz(data){
   $.get("/api/programs")
     .done(function (data){
       let allBeatz= data;
-      console.log(allBeatz)
+      console.log("seeBeatz hit")
+      console.log(allBeatz);
+      renderBeatz(allBeatz);
+    })
+}
+
+////////////////////////////////////
+/////    PUT  BEATZ ON PAGE    /////
+////////////////////////////////////
+
+function renderBeatz (){
+  console.log('renderBeatz func hit')
+  $('#allBeatzList').html('');
+  $.get('api/programs')
+    .done(function(data){
+      let allBeatz  = data;
+      allBeatz.forEach(function(beatz){
+        allBeatzHTML = 
+          "<a href='#' class='item oneBeatz' data-result-id='" + beatz._id + "'>" 
+    + beatz.timeStamp[0] + " " + "<button type='button' id='titleButton' class='btn-primary btnAdd btnList'>Change Title</button> <button type='button' id='deleteBeatzButton' class='btn-danger btnRemove btnList'>Remove This Beat</button> <button class='bt-default btnReLoad btnList' id='reLoadButton'>Re-Load</button></a> <p>"+beatz.title+" </p>"
+        $('#allBeatzList').append(allBeatzHTML)
+      })
     })
 }
 
