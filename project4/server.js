@@ -80,7 +80,7 @@ app.put('/api/programs/:id', function(req,res){
 	console.log("PUT hit");
 	console.log(req.params.id);
     db.Program.findOneAndUpdate({_id: req.params.id},
-   	{$set:{comment:req.body.comment}}, {new: false},
+   	{$set:{comment:req.body.title}}, {new: false},
   	  function (err,program){
       if(err){
       	console.log("PUT error");

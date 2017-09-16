@@ -13,50 +13,75 @@
 
 <body>
 
-<section id="drumMachine" class="container">
 
-  <div class='item machineGrid'></div>
+  <section id="drumMachine" class="container"> <!-- all elements in 'flex column' -->
 
-  <div class='buttons item'>
-    <button id="clear">Clear</button>
-    <button id="save">Save</button>
-    <button id="seeBeatz">MOAR BEATZ</button>
-  </div>
-
-  <div id="beatzSec" class='item'>
-    <div id="allBeatz" class='allBeatzDiv'>
-    <h1>This is the Beatz Div</h1>
-      <div id="allBeatzList" class=''></div>
+    <div class="item">  <!-- beatz title -->
+      <input class="titleInput" id="title" type='text' placeholder="give it a name!"> 
     </div>
-  </div>
 
-</section>
+   <div class='item machineGrid'></div>  <!-- THIS IS THE DRUM MACHINE! -->
+
+    <div class='buttons item'>        <!-- buttons! -->
+      <button id="clear">Clear</button>
+      <button id="save">Save</button>
+      <button id="seeBeatz">MOAR BEATZ</button>
+    </div>
+
+    <div id="beatzSec" class='item'>   <!-- all beatz in database rendered here -->
+      <div id="allBeatz" class='allBeatzDiv'>
+      <h3 class='beatzHistory'>This is the Beatz Div</h3>
+        <div id="allBeatzList" class=''></div>
+      </div>
+    </div>
+
+  </section>
  
 
-<!-- <input id="booms" type="checkbox"  data-toggle="toggle" data-on="BOOM" data-off="...." data-onstyle="success" data-offstyle="danger">
+<!--___________________ MODAL!!!! ___________________-->
 
-<input type="checkbox" checked data-toggle="toggle" data-on="BAP" data-off="...." data-onstyle="success" data-offstyle="danger">
+  <div class="modal fade" tableindex='-1' role='dialog' id='titleModal'>
+    <div class='modal-dialog'>
+      <div class='modal-content'>
+        <div class='modal-header'>
+          <button type='button' class='close' data-dismiss='modal' area-label="Close"><span aria-hidden='true'>&times;</span></button>
+          <h3 class='modalTitle modal-title'>Beatz Title</h3>
+        </div>
+        <div class='modal-body'>
+          <fieldset class="from-horizontal">
+            <div class="form-group">
+              <div class='col-md-10 col-md-offset-1'>
+                <!---_______text input___________-->
+                <input id='beatzTitle' name='beatzTitle' type='text' placeholder='add a comment' class='form-control input-lg'>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div class='model-footer'>
+          <button type='button' class='btn btn-primary btnSave' id='saveTitle'>Save Title</button>
+          <button type='button' class='btn btn-default btnClose' data-dismiss='modal'>Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    
 
-<input type="checkbox" checked data-toggle="toggle" data-on="TICK" data-off="...." data-onstyle="success" data-offstyle="danger">
 
 
 
-<button type="button" id="tick" class="btn btn-default">Default</button>
-
-  
-<button type="button" id="boom" class="btn btn-default">Default</button>
-
- -->
-
-<script
+<!--_____________ JQUERY _________________-->
+<script  
   src="https://code.jquery.com/jquery-3.2.1.min.js"
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
   crossorigin="anonymous"></script>
 
+<!--____________ BOOTSTRAP _______________-->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+<!-- ______BOOTSTRAP TOGGLE BUTTONS ______-->
   <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
+<!--_______________ APP.JS _______________-->
   <script type= "text/javascript" src="./scripts/app.js"></script>
 </body>
 

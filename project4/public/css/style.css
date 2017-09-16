@@ -67,6 +67,17 @@ body {
 	background: blue;
 }
 
+/*_______________________OTHER STYLES_____________________*/
 
+.titleInput {
+	background-color:transparent;
+	border-style: none;
+	text-align: center;
+	color: white;
+}
+
+::-webkit-input-placeholder { 
+    color:rgba(150,150,150,.5);
+}
 
 

@@ -161,17 +161,20 @@ var saveProgram = function(){
   // console.log(instObj)
   
 
+
 ////////////////////////////////////
 /////   SAVE TO DATABASE       /////
 ////////////////////////////////////
+
   var hiHat1 = Object.values(programData.hihatAnalog); //these pull the data (pattern) out of each instrument
   var hiHat2 = Object.values(programData.openhatTight);
   var kick1 = Object.values(programData.kickFloppy);
   var kick2 = Object.values(programData.kickHeavy);
   var snare1 = Object.values(programData.snareAnalog);
   var snare2 = Object.values(programData.snareBlock);
-  var timeStamp = new Date().toLocaleString().split(', '); 
-  var programsUrl = "/api/programs"
+  var timeStamp = new Date().toLocaleString().split(', ');
+  var title = $("#title").val();
+  var programsUrl = "/api/programs";
   
   console.log("hihat obj val " + hiHat1)
   console.log(timeStamp)
@@ -186,8 +189,8 @@ var saveProgram = function(){
       inst4: kick2,
       inst5: snare1,
       inst6: snare2,
-      title: "It's a beat",
-      timeStamp: new Date().toLocaleString().split(', ') 
+      title: title,
+      timeStamp: timeStamp 
     },
     success: function(){
       console.log('ajax POST success')
@@ -205,40 +208,97 @@ document.querySelector('#save').addEventListener('click', saveProgram);
 ////////////////////////////////////
 ////////////////////////////////////
 
-var getUrl= "/api/programs";
-var allBeatz;
+  var getUrl= "/api/programs";
+  var allBeatz;
 
-function seeBeatz(data){
-  $.get("/api/programs")
-    .done(function (data){
-      let allBeatz= data;
-      console.log("seeBeatz hit")
-      console.log(allBeatz);
-      renderBeatz(allBeatz);
-    })
-}
-
-////////////////////////////////////
-/////    PUT  BEATZ ON PAGE    /////
-////////////////////////////////////
-
-function renderBeatz (){
-  console.log('renderBeatz func hit')
-  $('#allBeatzList').html('');
-  $.get('api/programs')
-    .done(function(data){
-      let allBeatz  = data;
-      allBeatz.forEach(function(beatz){
-        allBeatzHTML = 
-          "<a href='#' class='item oneBeatz' data-result-id='" + beatz._id + "'>" 
-    + beatz.timeStamp[0] + " " + "<button type='button' id='titleButton' class='btn-primary btnAdd btnList'>Change Title</button> <button type='button' id='deleteBeatzButton' class='btn-danger btnRemove btnList'>Remove This Beat</button> <button class='bt-default btnReLoad btnList' id='reLoadButton'>Re-Load</button></a> <p>"+beatz.title+" </p>"
-        $('#allBeatzList').append(allBeatzHTML)
+  function seeBeatz(data){
+    $.get("/api/programs")
+      .done(function (data){
+        let allBeatz= data;
+        console.log("seeBeatz hit")
+        console.log(allBeatz);
+        renderBeatz(allBeatz);
       })
+  }
+
+////////////////////////////////////
+/////   Put beatz list ON PAGE /////
+////////////////////////////////////
+
+  function renderBeatz (){
+    console.log('renderBeatz func hit')
+    $('#allBeatzList').html('');
+    $.get('/api/programs')
+      .done(function(data){
+        let allBeatz  = data;
+        allBeatz.forEach(function(beatz){
+          allBeatzHTML = 
+            "<a href='#' class='item oneBeatz' data-beatz-id='" + beatz._id + "'>" 
+             +beatz.title+  " " + "<button type='button' id='titleButton' class='btn-primary btnAdd btnList'>Change Title</button> <button type='button' id='deleteBeatzButton' class='btn-danger btnRemove btnList'>Remove This Beat</button> <button class='bt-default btnReLoad btnList' id='reLoadButton'>Re-Load</button></a>"
+          $('#allBeatzList').append(allBeatzHTML)
+        })
+      })
+  }
+  document.querySelector('#seeBeatz').addEventListener('click', seeBeatz);
+
+
+
+////////////////////////////////////
+/////    DELETE this BEATZ     /////
+////////////////////////////////////
+
+$("#allBeatzList").on('click', '#deleteBeatzButton', function(event){  //#allBeatzList div needs to render before button/function can be used. Else, error.
+    console.log('deleteBeatz hit')
+    var thisBeatzId = $(this).parents('.oneBeatz').data('beatz-id');
+    console.log('deleting this beatz ' + thisBeatzId);
+    var byThisURL = "/api/programs/" + thisBeatzId + "";
+    $.ajax({
+      method: "DELETE",
+      url: byThisURL,
+      success: function(){
+        console.log("ajax delete success!");
+        renderBeatz(allBeatz)
+      }
     })
-}
+  })
 
-document.querySelector('#seeBeatz').addEventListener('click', seeBeatz);
+////////////////////////////////////
+////  Change Title of BEATZ    /////
+////////////////////////////////////
+let beatzId;
+let byThisUrl;
 
+$("#allBeatzList").on('click', '#titleButton', function(event){
+  console.log("change title button hit");
+    beatzId = $(this).parents('.oneBeatz').data('beatz-id');
+    console.log('changing title ' + beatzId);
+    byThisURL = "/api/programs/" + beatzId + "";
+    $('#titleModal');
+    $('#titleModal').modal()
+    $.get("/api/programs/"+beatzId+"")
+      .done(function(data){
+        console.log(data.title);
+        $("#beatzTitle").val(data.title)
+      })
+})
+
+$("#titleModal").on('click', '#saveTitle', function(event){
+  console.log("save title button hit " + beatzId);
+  var titleBox = $("#beatzTitle").val();
+  $.ajax({
+    method: "PUT",
+    url: byThisURL,
+    data: {
+      title: titleBox,
+    },
+    success: function(allBeatz){
+      console.log("ajax update title success");
+      $("#titleModal").modal('hide');
+      $("#beatzTitle").val('');
+      renderBeatz(allBeatz);
+    }
+  })
+})
 
 
 
