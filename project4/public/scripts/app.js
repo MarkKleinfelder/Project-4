@@ -154,9 +154,9 @@ var saveProgram = function(){
     }
     programData[soundName]=hitsArr; 
   });
-  var instJson = JSON.stringify(programData); //stringify the programData,
+  //var instJson = JSON.stringify(programData); //stringify the programData,
   console.log(programData)
-  // console.log(instJson)
+  //console.log(instJson)
   // var instObj = JSON.parse(instJson);  //then parse the JSON so it can be saved to db
   // console.log(instObj)
   
@@ -175,8 +175,7 @@ var saveProgram = function(){
   var timeStamp = new Date().toLocaleString().split(', ');
   var title = $("#title").val();
   var programsUrl = "/api/programs";
-  
-  console.log("hihat obj val " + hiHat1)
+
   console.log(timeStamp)
   
   $.ajax({
@@ -270,14 +269,15 @@ let byThisUrl;
 
 $("#allBeatzList").on('click', '#titleButton', function(event){
   console.log("change title button hit");
-    beatzId = $(this).parents('.oneBeatz').data('beatz-id');
-    console.log('changing title ' + beatzId);
+  beatzId = $(this).parents('.oneBeatz').data('beatz-id');
+  console.log('changing title ' + beatzId);
     byThisURL = "/api/programs/" + beatzId + "";
     $('#titleModal');
     $('#titleModal').modal()
     $.get("/api/programs/"+beatzId+"")
       .done(function(data){
         console.log(data.title);
+        console.log(data)
         $("#beatzTitle").val(data.title)
       })
 })
@@ -299,6 +299,24 @@ $("#titleModal").on('click', '#saveTitle', function(event){
     }
   })
 })
+
+
+////////////////////////////////////
+/////    RELOAD Beatz          /////
+////////////////////////////////////
+
+$("#allBeatzList").on('click', '#reLoadButton', function(){
+  var beatzId = $(this).parents('.oneBeatz').data('beatz-id')
+  $.get("/api/programs/"+ beatzId + "")
+    .done(function(data){
+
+    })
+
+
+  })
+})
+
+
 
 
 
