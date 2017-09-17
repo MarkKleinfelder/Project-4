@@ -13,31 +13,29 @@
 
 <body>
 
-
-  
-
   <section id="drumMachine" class="container"> <!-- all elements in 'flex column' -->
-   
-    <input id="defaultSlider" type="range" min='0' max='10' step="0.5" />  <!-- new for html5- SLIDER control. -->
-    <p class='indicator'>Volume  <span id='currentValue'>5</span></p>
-
-    <input id="distSlider" type="range" min='0' max='100' step="5" value='0' />  <!-- new for html5- SLIDER control. -->
-    <p class='indicator'>Distortion <span id='currentDist'>0</span></p>
-
-
-
     <div class="item">  <!-- beatz title -->
       <input class="titleInput" id="title" type='text' placeholder="give it a name!"> 
     </div>
+    <div class="container">
+      <div class='item machineGrid'></div>  <!-- THIS IS THE DRUM MACHINE! -->
+    </div>
 
-   <div class='item machineGrid'></div>  <!-- THIS IS THE DRUM MACHINE! -->
-
-    <div class='buttons item'>        <!-- buttons! -->
+    <div class='opsButtons item'>        <!-- buttons! -->
       <button id="clear">Clear</button>
       <button id="save">Save</button>
       <button id="seeBeatz">MOAR BEATZ</button>
     </div>
 
+    <div class='item defaultDiv'>
+      <input id="defaultSlider" class="sliders defaultSlider" type="range" min='0' max='10' step="0.5" />  <!-- new for html5- SLIDER control. -->
+      <p class='indicator'>Volume  <span id='currentValue'>5</span></p>
+    </div>
+    <div class='item distDiv'>
+      <input id="distSlider" class='sliders distortionSlider' type="range" min='0' max='100' step="5" value='0' />  <!-- new for html5- SLIDER control. -->
+      <p class='indicator'>Distortion <span id='currentDist'>0</span></p>
+    </div>  
+  
     <div id="beatzSec" class='item'>   <!-- all beatz in database rendered here -->
       <div id="allBeatz" class='allBeatzDiv'>
       <h3 class='beatzHistory'>This is the Beatz Div</h3>
