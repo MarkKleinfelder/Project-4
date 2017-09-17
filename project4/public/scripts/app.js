@@ -4,7 +4,10 @@
  
 
   var AudioContext = window.AudioContext; //AudioApi
-
+  if (AudioContext){
+  var context =  new AudioContext(); // if we can use AudioContext 
+  }
+ 
 
   var sounds = [
     'hihatAnalog.wav',
@@ -19,7 +22,7 @@
 
   var BPM = 120;
   var STEPS = 8;
-
+  
 
 
 
@@ -31,17 +34,10 @@
 
   var buffers = {};
   
-  if (AudioContext){
-  var context =  new AudioContext(); // if we can use AudioContext 
-  }
+ 
 
   var playSound = function (index) {
-    var soundPath = soundsUrl + sounds[index];
-
-    // if (!AudioContext){
-    //   new Audio(soundPath).play();
-    //   return;
-    // }
+  var soundPath = soundsUrl + sounds[index];
 
     if (typeof(buffers[soundPath]) == 'undefined'){
       buffers[soundPath] = null;
@@ -52,7 +48,7 @@
       //decodes asynchronously
       req.onload = function(){    //when page loads, use AudioContext to decode the binary audio data
         context.decodeAudioData(req.response, function(buffer){  //call back that provides decoded audio
-          buffers[soundPath] = buffer; 
+          buffers[soundPath] = buffer; //'buffer' holds all sound paths
           playBuffer(buffer);
           //console.log(buffer)
         },
@@ -64,10 +60,31 @@
     }
 
     function playBuffer(buffer){
-      var source = context.createBufferSource();  //create source for AudioContext. Needed for playback source
+      let source = context.createBufferSource();  //create source for AudioContext. Needed for playback source
       source.buffer = buffer;   //sets source and buffer
-      //console.log (buffer)
-      source.connect(context.destination);  //connects the source to the AudioContext destination (where the audio plays(computer speakers!))
+      
+///////////////////////////
+///////  GAIN SLIDER  /////
+///////////////////////////
+      let currentValue;
+      let currentGain = document.getElementById('currentValue').innerHTML;
+      $(function(){
+        currentValue = $('#currentValue');
+        $('#defaultSlider').change(function(){
+          currentValue.html(this.value);
+         });
+        $('#defaultSlider').change();
+      });
+    var gain = context.createGain();
+    source.connect(gain);
+    gain.connect(context.destination)
+    gain.gain.value = currentGain;
+
+////////
+
+
+
+    //source.connect(context.destination);  //connects the source to the AudioContext destination (where the audio plays(computer speakers!))
       //console.log(source.connect)
       //console.log(buffers)
       source.start(); //play this source now!
@@ -441,6 +458,18 @@ $("#titleModal").on('click', '#saveTitle', function(event){ //change title
     lastStep = currentStep;
     currentStep = (currentStep + 1) % STEPS;
   }, stepTime); //uses stepTime from above to stay sync'd to sound and visuals
+
+
+
+  ////////////////////////////////////////////////////////
+  ////////////////////                   /////////////////
+  ////////////////////  AUDIO EFFECTS    /////////////////
+  ////////////////////                   /////////////////
+  ////////////////////////////////////////////////////////
+
+  
+
+
 
 
 })()//this runs the function!
