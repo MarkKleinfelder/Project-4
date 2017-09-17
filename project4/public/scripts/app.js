@@ -268,35 +268,35 @@ $("#allBeatzList").on('click', '#deleteBeatzButton', function(event){  //#allBea
 let beatzId;
 let byThisUrl;
 
-$("#allBeatzList").on('click', '#titleButton', function(event){
+$("#allBeatzList").on('click', '#titleButton', function(event){  
   console.log("change title button hit");
-  beatzId = $(this).parents('.oneBeatz').data('beatz-id');
+  beatzId = $(this).parents('.oneBeatz').data('beatz-id');  //get get id of clicked item
   console.log('changing title ' + beatzId);
-    byThisURL = "/api/programs/" + beatzId + "";
-    $('#titleModal').data(beatzId);
+    byThisURL = "/api/programs/" + beatzId + ""; //use id to locate item in db
+    $('#titleModal').data(beatzId);  //populate modal with data related to id
     $('#titleModal').modal()
-    $.get("/api/programs/"+beatzId+"")
+    $.get("/api/programs/"+beatzId+"")  
       .done(function(data){
         console.log(data.title);
-        $("#beatzTitle").val(data.title)
+        $("#beatzTitle").val(data.title)    //beatzTitle is populated with title from object
       })
 })
 
-$("#titleModal").on('click', '#saveTitle', function(event){
+$("#titleModal").on('click', '#saveTitle', function(event){ //change title
   console.log("save title button hit " + beatzId);
-  var titleBox = $("#beatzTitle").val();
-  $(".titleInput").val(titleBox);
+  var titleBox = $("#beatzTitle").val();  
+  $(".titleInput").val(titleBox);  //populate input box 'titleInput' with db title from modal
   $.ajax({
     method: "PUT",
     url: byThisURL,
     data: {
-      title: titleBox,
+      title: titleBox,    //replace title in db object with new title
     },
     success: function(allBeatz){
-      console.log("ajax update title success");
-      $("#titleModal").modal('hide');
-      $("#beatzTitle").val('');
-      renderBeatz();
+      console.log("ajax update title success");  
+      $("#titleModal").modal('hide');  //hide modal on success
+      $("#beatzTitle").val('');     //clear values from input area 
+      renderBeatz();  // rerender list
     }
   })
 })
