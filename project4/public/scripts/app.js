@@ -217,7 +217,7 @@ document.querySelector('#save').addEventListener('click', saveProgram);
         let allBeatz= data;
         console.log("seeBeatz hit")
         console.log(allBeatz);
-        renderBeatz(allBeatz);
+        renderBeatz();
       })
   }
 
@@ -273,7 +273,7 @@ $("#allBeatzList").on('click', '#titleButton', function(event){
   beatzId = $(this).parents('.oneBeatz').data('beatz-id');
   console.log('changing title ' + beatzId);
     byThisURL = "/api/programs/" + beatzId + "";
-    $('#titleModal');
+    $('#titleModal').data(beatzId);
     $('#titleModal').modal()
     $.get("/api/programs/"+beatzId+"")
       .done(function(data){
@@ -285,6 +285,7 @@ $("#allBeatzList").on('click', '#titleButton', function(event){
 $("#titleModal").on('click', '#saveTitle', function(event){
   console.log("save title button hit " + beatzId);
   var titleBox = $("#beatzTitle").val();
+  $(".titleInput").val(titleBox);
   $.ajax({
     method: "PUT",
     url: byThisURL,
@@ -295,7 +296,7 @@ $("#titleModal").on('click', '#saveTitle', function(event){
       console.log("ajax update title success");
       $("#titleModal").modal('hide');
       $("#beatzTitle").val('');
-      renderBeatz(allBeatz);
+      renderBeatz();
     }
   })
 })
@@ -305,58 +306,88 @@ $("#titleModal").on('click', '#saveTitle', function(event){
 /////    RELOAD Beatz          /////
 ////////////////////////////////////
 
-$("#allBeatzList").on('click', '#reLoadButton', function(){
+  $("#allBeatzList").on('click', '#reLoadButton', function(){
   
-  var beatzId = $(this).parents('.oneBeatz').data('beatz-id')
-  $.get("/api/programs/"+ beatzId + "")
-    .done(function(data){
+    var beatzId = $(this).parents('.oneBeatz').data('beatz-id')
+    $.get("/api/programs/"+ beatzId + "")
+      .done(function(data){
+        $('.titleInput').val(data.title)
       
-      str1 = data.inst1.split(',');    // converts all pattern STRINGS to pattern ARRAYs
-      arr1=[];
-      for(i=0; i<str1.length; i++){
+        str1 = data.inst1.split(',');    // converts all pattern STRINGS to pattern ARRAYs
+        arr1=[];
+        for(i=0; i<str1.length; i++){
         arr1.push(parseInt(str1[i]));
-      }
-        console.log('arr1 ' +arr1)
-      str2 = data.inst2.split(',');
-      arr2=[];
-      for(i=0; i<str2.length; i++){
-        arr2.push(parseInt(str2[i]));
-      }
-        
-      str3 = data.inst3.split(',');
-      arr3=[];
-      for(i=0; i<str3.length; i++){
-        arr3.push(parseInt(str3[i]));
-      }
-        
-      str4 = data.inst4.split(',');
-      arr4=[];
-      for(i=0; i<str4.length; i++){
-        arr4.push(parseInt(str4[i]));
-      }
-        
-      str5 = data.inst5.split(',');
-      arr5=[];
-      for(i=0; i<str5.length; i++){
-        arr5.push(parseInt(str5[i]));
-      }
-        
-      str6 = data.inst6.split(',');
-      arr6=[];
-      for(i=0; i<str6.length; i++){
-        arr6.push(parseInt(str6[i]));
-      }
-    
-      var hihatAnalog= document.querySelectorAll('.hihatAnalog')
-      console.log(hihatAnalog)
-      for(var i=0; i<arr1.length;i++){
-        if(arr1[i]=1){
-          hihatAnalog[i].className += ' on';
         }
-      }
-})
-   
-})
+          console.log('arr1 ' +arr1)
+        str2 = data.inst2.split(',');
+        arr2=[];
+        for(i=0; i<str2.length; i++){
+          arr2.push(parseInt(str2[i]));
+        }
+        
+        str3 = data.inst3.split(',');
+        arr3=[];
+        for(i=0; i<str3.length; i++){
+          arr3.push(parseInt(str3[i]));
+        }
+        
+        str4 = data.inst4.split(',');
+        arr4=[];
+        for(i=0; i<str4.length; i++){
+          arr4.push(parseInt(str4[i]));
+        }
+        
+        str5 = data.inst5.split(',');
+        arr5=[];
+        for(i=0; i<str5.length; i++){
+          arr5.push(parseInt(str5[i]));
+        }
+        
+        str6 = data.inst6.split(',');
+        arr6=[];
+        for(i=0; i<str6.length; i++){
+          arr6.push(parseInt(str6[i]));
+        }
+    
+        var hihatAnalog= document.querySelectorAll('.hihatAnalog')  //re-initialize variables
+        var openhatTight= document.querySelectorAll('.openhatTight')
+        var kickFloppy= document.querySelectorAll('.kickFloppy')
+        var kickHeavy= document.querySelectorAll('.kickHeavy')
+        var snareAnalog= document.querySelectorAll('.snareAnalog')
+        var snareBlock= document.querySelectorAll('.snareBlock')
+
+        for(var i=0; i<arr1.length;i++){          //loop through each button(beat) per instrument. Assign 'on' to calss if database array has a 1 in the current index 
+          if(arr1[i]===1){
+            hihatAnalog[i].className += ' on';
+          }
+        }
+        for(var j=0; j<arr2.length;j++){
+          if(arr2[j]===1){
+            openhatTight[j].className += ' on';
+          }
+        }
+        for(var k=0; k<arr3.length;k++){
+          if(arr3[k]===1){
+            kickFloppy[k].className += ' on';
+          }
+        }
+        for(var l=0; l<arr4.length;l++){
+          if(arr4[l]===1){
+            kickHeavy[l].className += ' on';
+          }
+        }
+        for(var m=0; m<arr5.length;m++){
+          if(arr5[m]===1){
+            snareAnalog[m].className += ' on';
+          }
+        }
+        for(var n=0; n<arr6.length;n++){
+          if(arr6[n]===1){
+            snareBlock[n].className += ' on';
+          }
+        }
+      })
+  })
 
 
 
