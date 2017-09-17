@@ -17,10 +17,9 @@
     'snareAnalog.wav',
     'snareBlock.wav'
   ];
-  var soundsUrl = './sounds/';
-  //var soundPath = soundsUrl + sounds[i]
+  var soundsUrl = './sounds/';  //var soundPath = soundsUrl + sounds[i]
 
-  var BPM = 120;
+  var BPM=120;
   var STEPS = 8;
   
 
@@ -66,8 +65,24 @@
 ///////////////////////////
 ///////  GAIN SLIDER  /////
 ///////////////////////////
+    var distortion = context.createWaveShaper();  
+    var gain = context.createGain();
+    
+
+    source.connect(gain);
+    gain.connect(distortion);
+    distortion.connect(context.destination)
+
+
+
+
+
+
+
+
       let currentValue;
       let currentGain = document.getElementById('currentValue').innerHTML;
+      
       $(function(){
         currentValue = $('#currentValue');
         $('#defaultSlider').change(function(){
@@ -75,18 +90,70 @@
          });
         $('#defaultSlider').change();
       });
-    var gain = context.createGain();
-    source.connect(gain);
-    gain.connect(context.destination)
-    gain.gain.value = currentGain;
+    
+    
+    gain.gain.value = currentGain*.1;
 
-////////
+////////////////////////
+      
+      
+
+      
+
+
+///////////////////////////////////
+/////// DISTORTION FUNCTION   /////
+///////////////////////////////////
+     
+      var dist = document.getElementById('currentDist').innerHTML;
+      var currentDist;
+      var distAmount = parseInt(dist, 10);
+      
+     $(function(){
+        currentDist = $('#currentDist');
+        $('#distSlider').change(function(){
+          currentDist.html(this.value);
+         });
+        $('#distSlider').change();
+      });
 
 
 
-    //source.connect(context.destination);  //connects the source to the AudioContext destination (where the audio plays(computer speakers!))
-      //console.log(source.connect)
-      //console.log(buffers)
+
+
+      function makeDistortionCurve(amount) {
+
+        var k = typeof amount === 'number' ? amount : 50,
+        n_samples = 44100,
+        curve = new Float32Array(n_samples),
+        deg = Math.PI / 180,
+        i = 0,
+        x;
+          for ( ; i < n_samples; ++i ) {
+           x = i * 2 / n_samples - 1;
+            curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x) );
+          }
+      return curve;
+
+      };
+
+     
+      
+      distortion.curve = makeDistortionCurve(distAmount);
+      distortion.oversample = '4x';
+
+
+    
+   
+ 
+
+
+////////////////////////
+
+
+
+    //***source.connect(context.destination);  //connects the source to the AudioContext destination (where the audio plays(computer speakers!))
+    
       source.start(); //play this source now!
     };
       if(buffers[soundPath]){
@@ -172,11 +239,8 @@ var saveProgram = function(){
     programData[soundName]=hitsArr; 
     
   });
-  //var instJson = JSON.stringify(programData); //stringify the programData,
   console.log(programData)
-  //console.log(instJson)
-  // var instObj = JSON.parse(instJson);  //then parse the JSON so it can be saved to db
-  // console.log(instObj)
+
   
 
 
@@ -421,7 +485,7 @@ $("#titleModal").on('click', '#saveTitle', function(event){ //change title
   //sets all variables on page load
   var currentStep = 0;
   var lastStep = STEPS - 1;
-  var stepTime = 1/(4*BPM/(60*1000))  //60*1000 (since we need mili-sec), 4*BPM (since we have 4 beats per measure), 4*BPM/(60*1000) (length of time allowed per-measure), 1/ (length of time per each beat)
+  var stepTime = 1/(4*BPM/(60*1000)) //60*1000 (since we need mili-sec), 4*BPM (since we have 4 beats per measure), 4*BPM/(60*1000) (length of time allowed per-measure), 1/ (length of time per each beat)
 
   //sets start time on animation to current time of day. Uses time of day (not timers run by the CPU) to keep sync. 
   function requestInterval(fn, delay){ //requestInterval replaces 'setInterval'. Works with requestAnimationFrame

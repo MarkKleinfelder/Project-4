@@ -17,8 +17,14 @@
   
 
   <section id="drumMachine" class="container"> <!-- all elements in 'flex column' -->
-    <input id="defaultSlider" type="range" min='0' max='1' step="0.001" />  <!-- new for html5- SLIDER control. -->
-    <p class='note'>Volume  <span id='currentValue'>0.5</span></p>
+   
+    <input id="defaultSlider" type="range" min='0' max='10' step="0.5" />  <!-- new for html5- SLIDER control. -->
+    <p class='indicator'>Volume  <span id='currentValue'>5</span></p>
+
+    <input id="distSlider" type="range" min='0' max='400' step="5" value='0' />  <!-- new for html5- SLIDER control. -->
+    <p class='indicator'>Distortion <span id='currentDist'>0</span></p>
+
+
 
     <div class="item">  <!-- beatz title -->
       <input class="titleInput" id="title" type='text' placeholder="give it a name!"> 
