@@ -63,22 +63,18 @@
       source.buffer = buffer;   //sets source and buffer
       
 ///////////////////////////
-///////  GAIN SLIDER  /////
+///////  AUDIO NODES! /////
 ///////////////////////////
     var distortion = context.createWaveShaper();  
     var gain = context.createGain();
-    
+  
+    source.connect(distortion);
+    distortion.connect(gain);
+    gain.connect(context.destination)
 
-    source.connect(gain);
-    gain.connect(distortion);
-    distortion.connect(context.destination)
-
-
-
-
-
-
-
+///////////////////////////
+///////  GAIN SLIDER  /////
+///////////////////////////
 
       let currentValue;
       let currentGain = document.getElementById('currentValue').innerHTML;
@@ -90,15 +86,8 @@
          });
         $('#defaultSlider').change();
       });
-    
-    
+
     gain.gain.value = currentGain*.1;
-
-////////////////////////
-      
-      
-
-      
 
 
 ///////////////////////////////////
@@ -109,7 +98,7 @@
       var currentDist;
       var distAmount = parseInt(dist, 10);
       
-     $(function(){
+     $(function(){          // distortion slider
         currentDist = $('#currentDist');
         $('#distSlider').change(function(){
           currentDist.html(this.value);
@@ -118,12 +107,8 @@
       });
 
 
-
-
-
       function makeDistortionCurve(amount) {
-
-        var k = typeof amount === 'number' ? amount : 50,
+        var k = typeof amount === 'number' ? amount : 0,
         n_samples = 44100,
         curve = new Float32Array(n_samples),
         deg = Math.PI / 180,
@@ -137,8 +122,6 @@
 
       };
 
-     
-      
       distortion.curve = makeDistortionCurve(distAmount);
       distortion.oversample = '4x';
 
