@@ -64,7 +64,9 @@ body {
 }
 
 .machineGrid button.playHead {
-	background: blue;
+	background: #5bdbff; 
+    background: -webkit-linear-gradient(to right, #5bdbff, #279bbc); 
+    background: linear-gradient(to right, #5bdbff, #279bbc);
 }
 
 /*_______________________OTHER STYLES_____________________*/
