@@ -24,7 +24,6 @@
   
 
 
-
   ////////////////////////////////////////////////////////
   ////////////////////                   /////////////////
   ////////////////////  AUDIOCONTEXT API /////////////////
@@ -109,7 +108,7 @@
 
       function makeDistortionCurve(amount) {
         var k = typeof amount === 'number' ? amount : 0,
-        n_samples = 44100,
+        n_samples = 575,
         curve = new Float32Array(n_samples),
         deg = Math.PI / 180,
         i = 0,
@@ -124,16 +123,6 @@
 
       distortion.curve = makeDistortionCurve(distAmount);
       distortion.oversample = '4x';
-
-
-    
-   
- 
-
-
-////////////////////////
-
-
 
     //***source.connect(context.destination);  //connects the source to the AudioContext destination (where the audio plays(computer speakers!))
     
@@ -454,9 +443,6 @@ $("#titleModal").on('click', '#saveTitle', function(event){ //change title
   })
 
 
-
-
-
 ////////////////////////////////////
 ////////////////////////////////////
 /////    LOOP THROUGH MACHINE  /////
@@ -505,17 +491,6 @@ $("#titleModal").on('click', '#saveTitle', function(event){ //change title
     lastStep = currentStep;
     currentStep = (currentStep + 1) % STEPS;
   }, stepTime); //uses stepTime from above to stay sync'd to sound and visuals
-
-
-
-  ////////////////////////////////////////////////////////
-  ////////////////////                   /////////////////
-  ////////////////////  AUDIO EFFECTS    /////////////////
-  ////////////////////                   /////////////////
-  ////////////////////////////////////////////////////////
-
-  
-
 
 
 
