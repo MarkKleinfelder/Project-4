@@ -15,8 +15,10 @@
 	background: #962f22; 
     background: -webkit-linear-gradient(to right, #db6c5e, #962f22); 
     background: linear-gradient(to right, #db6c5e, #962f22); 
-	border: 1px solid black;
+/*	border: 1px solid black;
+*/	border-style: outset;
 	border-radius: 1.5em;
+	border-color: white;
 	padding:2px;
 	height: 3em;
 	flex: 1 1 5%;  /*button width*/
@@ -58,6 +60,21 @@ body {
     align-content: center; 
 }
 
+.clearBtn, .saveBtn, .moarBtn{
+	border-style: outset;
+	border-color:white;
+}
+
+.clearBtn{
+	background: #ff4747; 
+    background: -webkit-linear-gradient(left, #ff4747, #7c4545);
+    background: -o-linear-gradient(left, #ff4747, #7c4545);
+    background: linear-gradient(to right, #ff4747, #7c4545);  
+}
+
+
+
+
 .container{
 	display:flex;
 	flex-direction: column;
@@ -84,15 +101,34 @@ body {
 }
 
 .opsButtons{
-
+	margin-top:15px;
 }
 
 .item{
-	margin:auto;
+	margin-left:auto;
+	margin-right:auto;
 	align-self: auto;
 	align-content: center;
-
 }
+
+.moarBtn {
+	background: #4db0f2; 
+    background: -webkit-linear-gradient(left, #4db0f2, #5b829b);
+    background: -o-linear-gradient(left, #4db0f2, #5b829b);
+    background: linear-gradient(to right, #4db0f2, #5b829b);
+}
+
+.saveBtn{
+	background: #78e575; 
+    background: -webkit-linear-gradient(left, #78e575, #607f5f);
+    background: -o-linear-gradient(left, #78e575, #607f5f);
+    background: linear-gradient(to right, #78e575, #607f5f);
+}
+
+.sliders{
+	background:red;
+}
+
 
 .titleInput {
 	background-color:transparent;
