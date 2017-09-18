@@ -32,8 +32,6 @@
 
   var buffers = {};
   
- 
-
   var playSound = function (index) {
   var soundPath = soundsUrl + sounds[index];
 
