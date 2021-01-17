@@ -211,9 +211,6 @@ var saveProgram = function(){
   });
   console.log(programData)
 
-  
-
-
 ////////////////////////////////////
 /////   SAVE TO DATABASE       /////
 ////////////////////////////////////
